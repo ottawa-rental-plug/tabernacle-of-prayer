@@ -1,0 +1,1229 @@
+/* ==========================================================================
+   Tabernacle of Prayer Parish — Ottawa
+   Design tokens + component styles
+
+   Palette taken from the parish crest and existing Canva artwork:
+   espresso ground, crest gold, burnt-orange accent, warm cream.
+   ========================================================================== */
+
+/* --- Tokens ------------------------------------------------------------- */
+:root {
+  /* Colour — drawn from the Tabernacle of Prayer Parish crest and the
+     real crest: orange ring, gold field, warm sepia grounds.
+     Two earlier readings were wrong and are corrected here — an aubergine
+     ground (the brand's darks are warm brown, not purple) and an 'oxblood'
+     ring sampled from a compressed thumbnail (it is orange). */
+  --ink:          #1A0F0A;  /* espresso near-black, primary ground */
+  --ink-soft:     #2A1A11;
+  --brand-deep:   #7F3A10;  /* deep burnt orange, from the crest ring */
+  --brand-orange: #E5822F;  /* the crest ring itself */
+  --gold:         #C8963C;  /* the crest's gold */
+  --gold-light:   #E8C069;
+  --gold-dim:     #85601F;  /* AA-safe gold for small text on cream */
+  --ember:        #C4442A;  /* focus/alert, sits between ring orange and red */
+  --cream:        #FBF6EE;  /* warm cream, matches the artwork grounds */
+  --paper:        #FFFFFF;
+  --body:         #2B1F18;
+  --muted:        #6A5648;  /* verified 4.5:1+ on cream */
+  --muted-on-ink: #D2C3B4;  /* verified 4.5:1+ on ink */
+  --line:         #E8DCCC;
+  --line-on-ink:  rgba(232, 192, 105, 0.22);
+
+  /* Semantic */
+  --bg:           var(--cream);
+  --fg:           var(--body);
+  --accent:       var(--gold-dim);
+  --focus:        var(--ember);
+
+  /* Type */
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-body:    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Fluid type scale */
+  --t-xs:   0.8125rem;
+  --t-sm:   0.9375rem;
+  --t-base: 1.0625rem;
+  --t-lg:   clamp(1.125rem, 0.5vw + 1rem, 1.3125rem);
+  --t-xl:   clamp(1.375rem, 1vw + 1.1rem, 1.75rem);
+  --t-2xl:  clamp(1.75rem, 2vw + 1.2rem, 2.5rem);
+  --t-3xl:  clamp(2.25rem, 3.5vw + 1.2rem, 3.75rem);
+  --t-hero: clamp(2.75rem, 6vw + 1rem, 5.5rem);
+
+  /* Spacing — spacious end of the scale, per density dial */
+  --s-1: 0.5rem;  --s-2: 0.75rem; --s-3: 1rem;    --s-4: 1.5rem;
+  --s-5: 2rem;    --s-6: 3rem;    --s-7: 4rem;    --s-8: 6rem;
+  --s-9: 8rem;
+
+  /* Form */
+  --radius:    14px;
+  --radius-sm: 9px;
+  --radius-lg: 22px;
+  --shadow:    0 1px 2px rgba(26,15,10,.05), 0 8px 24px -12px rgba(26,15,10,.16);
+  --shadow-lg: 0 2px 4px rgba(26,15,10,.05), 0 24px 56px -20px rgba(26,15,10,.28);
+
+  /* Motion */
+  --ease: cubic-bezier(.22,.61,.36,1);
+  --dur:  260ms;
+
+  --wrap: 1180px;
+}
+
+/* --- Reset -------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--t-base);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1,h2,h3,h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  margin: 0;
+  font-variation-settings: "SOFT" 20, "WONK" 1;
+}
+
+p { margin: 0; }
+img, svg, video { max-width: 100%; display: block; }
+a { color: inherit; }
+
+/* Must come after the img rule above. An author-level `display: block` beats
+   the UA stylesheet's `[hidden] { display: none }` no matter the specificity,
+   so without this a hidden <img> still reserves its box. */
+[hidden] { display: none !important; }
+
+/* Focus — keyboard only, never removed */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+/* --- Layout helpers ----------------------------------------------------- */
+.wrap { width: min(100% - 2.5rem, var(--wrap)); margin-inline: auto; }
+@media (min-width: 768px) { .wrap { width: min(100% - 5rem, var(--wrap)); } }
+
+.section { padding-block: var(--s-8); }
+@media (max-width: 640px) { .section { padding-block: var(--s-7); } }
+
+/* --- Scroll rhythm ------------------------------------------------------
+   Uniform spacing reads as competent but monotonous — every section the same
+   height, the same pace. These variations give the page a cadence: a dense
+   block, then a wide breath, then a tighter one. The pull quote (--s-9) is
+   the long exhale; the bookshop is deliberately tighter so the quote and the
+   giving section feel more open by contrast. */
+
+/* Opening section sits directly under a full-bleed hero — it needs more air
+   above it than a section following normal content would. */
+.section--lead { padding-block: var(--s-9) var(--s-8); }
+
+/* Tighter, denser block. Used where the content is already visually busy. */
+.section--tight { padding-block: var(--s-7); }
+
+/* Hairline between two consecutive dark sections, so they don't merge into
+   one undifferentiated slab. */
+.section--ink + .section--ink { border-top: 1px solid var(--line-on-ink); }
+
+@media (max-width: 640px) {
+  .section--lead  { padding-block: var(--s-8) var(--s-7); }
+  .section--tight { padding-block: var(--s-6); }
+}
+
+/* The header is fixed, so anchor jumps must stop clear of it rather than
+   landing with the heading tucked underneath. */
+section[id] { scroll-margin-top: 88px; }
+
+.section--ink { background: var(--ink); color: var(--cream); }
+.section--ink h2, .section--ink h3 { color: var(--cream); }
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--s-2);
+}
+.section--ink .eyebrow { color: var(--gold-light); }
+
+.lede {
+  font-size: var(--t-lg);
+  color: var(--muted);
+  max-width: 58ch;      /* keeps measure readable when French runs long */
+  margin-top: var(--s-3);
+}
+.section--ink .lede { color: var(--muted-on-ink); }
+
+.section-head { max-width: 62ch; margin-bottom: var(--s-6); }
+
+/* --- Skip link ---------------------------------------------------------- */
+.skip {
+  position: absolute; left: var(--s-3); top: -100px;
+  background: var(--ink); color: var(--cream);
+  padding: var(--s-2) var(--s-4); border-radius: var(--radius-sm);
+  z-index: 200; transition: top 180ms var(--ease);
+}
+.skip:focus { top: var(--s-3); }
+
+/* --- Buttons ------------------------------------------------------------ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--s-2);
+  min-height: 48px;                 /* exceeds 44px touch minimum */
+  padding: 0 var(--s-5);
+  border: 1px solid transparent;
+  border-radius: 100px;
+  font: inherit;
+  font-size: var(--t-sm);
+  font-weight: 600;
+  letter-spacing: .01em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--dur) var(--ease),
+              background-color var(--dur) var(--ease),
+              border-color var(--dur) var(--ease),
+              color var(--dur) var(--ease);
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+
+.btn--primary { background: var(--gold); color: var(--ink); }
+.btn--primary:hover { background: var(--gold-light); }
+
+.btn--ghost {
+  background: transparent; color: var(--cream);
+  border-color: rgba(251,246,238,.34);
+}
+.btn--ghost:hover { border-color: var(--gold-light); color: var(--gold-light); }
+
+.btn--dark { background: var(--ink); color: var(--cream); }
+.btn--dark:hover { background: var(--brand-deep); }
+
+.btn--outline { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn--outline:hover { border-color: var(--ink); }
+
+.btn--wide { width: 100%; }
+
+/* --- Header ------------------------------------------------------------- */
+/* Transparent over the hero photo, solid once you scroll past it. The hero
+   scrim is dark enough at the top that nav links stay legible against any
+   photograph. */
+.header {
+  /* fixed, not sticky: sticky stays in flow and would push the hero down,
+     leaving a bare strip above the photo instead of floating over it. */
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background var(--dur) var(--ease),
+              border-color var(--dur) var(--ease),
+              backdrop-filter var(--dur) var(--ease);
+}
+.header[data-scrolled="true"] {
+  background: rgba(26,15,10,.94);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  border-bottom-color: var(--line-on-ink);
+}
+.header__inner {
+  display: flex; align-items: center; gap: var(--s-4);
+  min-height: 76px;
+}
+
+.brand {
+  display: flex; align-items: center; gap: var(--s-2);
+  text-decoration: none; color: var(--cream);
+  font-family: var(--font-display);
+  font-size: 1.1875rem; font-weight: 600; letter-spacing: -.01em;
+  margin-right: auto;
+  padding-block: 7px;        /* lifts the tap area to 44px+ */
+  white-space: nowrap;       /* never let the church name break across lines */
+}
+/* Smaller type here needs more padding, not less, to hold the 44px tap area.
+   "Tabernacle of Prayer" is a long wordmark; on the narrowest phones the
+   decorative star is dropped so the name itself stays on one line at a
+   readable size. The name carries the identity, the star doesn't. */
+@media (max-width: 430px) {
+  .brand { font-size: 1rem; gap: 7px; padding-block: 11px; min-width: 0; }
+  .header .brand__mark { display: none; }
+}
+.brand__mark { flex: 0 0 auto; color: var(--gold); }
+
+/* The crest, once brand/logo.* exists. Circular emblem, so it's sized square
+   and kept crisp; object-fit guards against a non-square export. */
+.brand__logo {
+  flex: 0 0 auto;
+  width: 38px; height: 38px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+.footer .brand__logo { width: 34px; height: 34px; }
+/* Below 430px there isn't room for crest + "Tabernacle of Prayer" + language
+   toggle + menu on one line. The wordmark wins in the header; the crest still
+   shows in the footer, where there's space. */
+@media (max-width: 430px) { .header .brand__logo { display: none; } }
+
+.nav { display: none; align-items: center; gap: var(--s-1); }
+@media (min-width: 900px) { .nav { display: flex; } }
+
+.nav__link {
+  padding: var(--s-2) var(--s-3);
+  border-radius: 100px;
+  font-size: var(--t-sm); font-weight: 500;
+  color: var(--muted-on-ink);
+  text-decoration: none;
+  transition: color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+}
+.nav__link:hover { color: var(--cream); background: rgba(251,246,238,.08); }
+.nav__link[aria-current="true"] { color: var(--gold-light); }
+
+/* Language toggle */
+.lang {
+  display: inline-flex; align-items: stretch;
+  border: 1px solid var(--line-on-ink);
+  border-radius: 100px; overflow: hidden;
+  flex: 0 0 auto;   /* never let a long church name squeeze the tap targets */
+}
+.lang__btn {
+  min-height: 44px; min-width: 46px;   /* 44px is the iOS touch minimum */
+  padding: 0 var(--s-2);
+  background: transparent; border: 0;
+  color: var(--muted-on-ink);
+  font: inherit; font-size: var(--t-xs); font-weight: 600; letter-spacing: .06em;
+  cursor: pointer;
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.lang__btn:hover { color: var(--cream); }
+.lang__btn[aria-pressed="true"] { background: var(--gold); color: var(--ink); }
+
+/* Mobile menu */
+.burger {
+  display: inline-flex; align-items: center; justify-content: center;
+  flex: 0 0 auto;   /* same reason as .lang — must hold 48px */
+  width: 48px; height: 48px;
+  background: transparent; border: 1px solid var(--line-on-ink);
+  border-radius: 100px; color: var(--cream); cursor: pointer;
+}
+@media (min-width: 900px) { .burger { display: none; } }
+
+.drawer {
+  display: none;
+  padding: var(--s-3) 0 var(--s-5);
+  border-top: 1px solid var(--line-on-ink);
+}
+.drawer[data-open="true"] { display: block; }
+@media (min-width: 900px) { .drawer { display: none !important; } }
+.drawer__link {
+  display: block; padding: var(--s-3) var(--s-2);
+  color: var(--cream); text-decoration: none;
+  font-size: var(--t-lg); font-family: var(--font-display);
+  border-bottom: 1px solid var(--line-on-ink);
+}
+
+/* --- Hero --------------------------------------------------------------- */
+.hero {
+  position: relative;
+  background: var(--ink);
+  color: var(--cream);
+  /* Full viewport, so nothing from the next section peeks above the fold —
+     landing on the site shows the hero and nothing else. svh rather than vh
+     so the iOS toolbar collapsing doesn't cause a jump. */
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;       /* type sits low in the frame */
+  padding-block: var(--s-9) 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+@supports not (min-height: 100svh) { .hero { min-height: 100vh; } }
+
+/* On a phone the generous desktop padding pushes the service-times bar below
+   the fold — the one thing a first-time visitor is actually looking for.
+   Tighten the vertical rhythm so the bar lands on-screen. */
+@media (max-width: 640px) {
+  .hero { min-height: 100svh; padding-block: var(--s-6) 0; }
+  .hero__content { padding-bottom: var(--s-4); }
+  .hero__actions { width: 100%; }
+  .hero__actions .btn { flex: 1 1 auto; }
+  /* French runs ~4 lines here against English's 3; drop a step so both fit. */
+  .hero__lede { font-size: var(--t-base); margin-top: var(--s-3); }
+  .hero__bar-inner { gap: var(--s-3); padding-block: var(--s-3); }
+}
+
+/* Looping worship clip, when one exists. Sits below the scrim, above nothing. */
+.hero__video {
+  position: absolute; inset: 0; z-index: -3;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  /* Slightly desaturated and darkened so the type stays dominant and the
+     footage reads as atmosphere rather than as a video the visitor should
+     be watching. */
+  filter: saturate(.86) brightness(.72);
+}
+/* With video playing, the CSS panel steps aside — two competing treatments
+   layered on top of each other looks like a mistake. */
+.hero__video:not([hidden]) ~ .hero__bg { opacity: 0; }
+.hero__video:not([hidden]) ~ .hero__seal { opacity: .05; }
+
+/* Background layer. Replaced by the real photo via [data-hero-img]. */
+.hero__bg {
+  position: absolute; inset: 0; z-index: -2;
+  background:
+    /* Stage lighting, not a brown wash. The earlier version put burnt orange
+       across the whole panel, which read muddy — mid-brown on mid-brown with
+       nothing to look at. This drops the base to near-black and concentrates
+       the warmth into one source, the way a lit platform actually looks. */
+    radial-gradient(40% 34% at 50% 30%, rgba(255,214,140,.16), transparent 72%),
+    radial-gradient(78% 52% at 50% -6%, rgba(232,178,88,.30),  transparent 70%),
+    radial-gradient(46% 40% at 12% 12%, rgba(200,150,60,.13),  transparent 64%),
+    radial-gradient(42% 38% at 90% 14%, rgba(196,68,42,.11),   transparent 62%),
+    linear-gradient(180deg, #2A1608 0%, #150B05 38%, #0C0604 74%, #070302 100%);
+  background-size: cover;
+  background-position: center;
+  animation: drift 30s var(--ease) infinite alternate;
+}
+.hero__bg[data-loaded="true"] { animation: none; }
+
+/* Light shafts — the motif your own artwork already uses. Pure CSS, so it
+   costs nothing to load and looks intentional rather than like a missing
+   photo. Shown only while no photograph is present; a real image replaces it
+   entirely. */
+.hero__bg:not([data-loaded="true"])::after {
+  content: "";
+  position: absolute; inset: -25%;
+  background: repeating-linear-gradient(
+    102deg,
+    transparent 0 2.4%,
+    rgba(232,192,105,.075) 2.4% 3.6%,
+    transparent 3.6% 4.2%,
+    rgba(232,192,105,.045) 4.2% 5.2%,
+    transparent 5.2% 9%
+  );
+  /* Fade the beams out toward the edges so they read as light falling from
+     above rather than as stripes running off the canvas. */
+  -webkit-mask-image: radial-gradient(66% 72% at 48% 6%, #000 4%, transparent 74%);
+          mask-image: radial-gradient(66% 72% at 48% 6%, #000 4%, transparent 74%);
+  animation: shafts 44s var(--ease) infinite alternate;
+  will-change: transform;
+}
+@keyframes shafts {
+  from { transform: translate3d(-1.5%, 0, 0) rotate(-0.8deg); }
+  to   { transform: translate3d( 1.5%, 0, 0) rotate( 0.8deg); }
+}
+
+/* Vignette. Pulls the eye to the centred type and stops the panel reading flat. */
+.hero__bg::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(78% 78% at 50% 42%, transparent 42%, rgba(12,6,3,.62) 100%);
+}
+
+/* Scrim. Non-negotiable once a real photo is in: it's what keeps the type at
+   4.5:1 regardless of what the photograph is doing underneath. */
+.hero__scrim {
+  position: absolute; inset: 0; z-index: -1;
+  background:
+    /* Localised pool of shade sitting under the headline block. The linear
+       wash alone is not enough: a bright subject dead-centre (sky, sunlit
+       building) washes out the gold eyebrow, which is the smallest text here
+       and the first to fail. This anchors legibility to the text position
+       rather than to whatever the photograph happens to be doing. */
+    radial-gradient(72% 46% at 50% 60%, rgba(26,15,10,.74), transparent 72%),
+    linear-gradient(to bottom,
+      rgba(26,15,10,.74) 0%,
+      rgba(26,15,10,.46) 34%,
+      rgba(26,15,10,.76) 72%,
+      rgba(26,15,10,.94) 100%);
+}
+.hero__scrim::after {           /* grain, stops large flat areas banding */
+  content: ""; position: absolute; inset: 0; opacity: .45;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.055'/%3E%3C/svg%3E");
+}
+
+/* --- Hero seal ---------------------------------------------------------
+   The crest, oversized and nearly invisible, sitting behind the type. It gives
+   the composition a centre of gravity; without it the hero is words on a
+   gradient. Opacity is deliberately low — it should register as texture, not
+   as a second logo competing with the headline. */
+.hero__seal {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: min(112vh, 1000px); aspect-ratio: 1;
+  transform: translate3d(-50%, -54%, 0);
+  z-index: -1;
+  background: url("../../brand/logo.jpg") center / contain no-repeat;
+  opacity: .10;
+  /* Heavily blurred on purpose. Sharp enough to read, the ring lettering makes
+     it look like a stock watermark; blurred, it becomes a warm aura that reads
+     as light and depth. The form of the crest still registers. */
+  filter: blur(14px) saturate(1.3);
+  /* Tight mask keeps the outer lettering out of the frame entirely. */
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 26%, transparent 56%);
+          mask-image: radial-gradient(circle at 50% 50%, #000 26%, transparent 56%);
+  animation: sealBreathe 26s var(--ease) infinite alternate;
+}
+@keyframes sealBreathe {
+  from { transform: translate3d(-50%, -54%, 0) scale(1);    opacity: .075; }
+  to   { transform: translate3d(-50%, -54%, 0) scale(1.05); opacity: .105; }
+}
+
+.hero__content {
+  position: relative;
+  text-align: center;
+  padding-bottom: var(--s-8);
+  display: flex; flex-direction: column; align-items: center;
+}
+
+/* --- Masked headline reveal --------------------------------------------
+   overflow:hidden on the wrapper + translateY on the inner span means the
+   words rise out of a hard edge instead of fading in place. It is the single
+   cheapest thing that makes type feel authored rather than dropped in. */
+/* overflow:hidden clips BOTH axes. Fraunces italic leans right, so the final
+   glyph's ink extends past its layout box and gets shaved — invisible in the
+   box metrics, obvious on screen. Widen the clip box horizontally and pull it
+   back with a matching negative margin so nothing shifts. */
+.mask {
+  display: block;
+  overflow: hidden;
+  padding: 0 .18em .12em;
+  margin-inline: -.18em;
+}
+.mask__in {
+  display: block;
+  transform: translate3d(0, 105%, 0);
+  animation: maskRise 1100ms cubic-bezier(.19,1,.22,1) forwards;
+  animation-delay: var(--intro-delay, 0ms);
+}
+@keyframes maskRise { to { transform: translate3d(0, 0, 0); } }
+
+/* The italic word lands last and warms up, so the eye finishes on it. */
+.hero__title em {
+  display: inline-block;
+  opacity: 0;
+  animation: emArrive 900ms cubic-bezier(.19,1,.22,1) forwards;
+  animation-delay: 620ms;
+}
+@keyframes emArrive {
+  from { opacity: 0; transform: translate3d(0, .18em, 0) rotate(-1.2deg); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* --- Next gathering ----------------------------------------------------- */
+.hero__next {
+  display: inline-flex; align-items: center; gap: var(--s-2);
+  margin-top: var(--s-6);
+  padding: 10px var(--s-4);
+  border: 1px solid var(--line-on-ink);
+  border-radius: 100px;
+  background: rgba(26,15,10,.42);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: var(--t-sm);
+  color: var(--muted-on-ink);
+}
+.hero__next-dot {
+  width: 7px; height: 7px; border-radius: 100px;
+  background: var(--gold-light);
+  box-shadow: 0 0 0 0 rgba(232,192,105,.55);
+  animation: nextPulse 2.6s ease-out infinite;
+}
+@keyframes nextPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(232,192,105,.5); }
+  70%  { box-shadow: 0 0 0 9px rgba(232,192,105,0); }
+  100% { box-shadow: 0 0 0 0 rgba(232,192,105,0); }
+}
+.hero__next-label {
+  text-transform: uppercase; letter-spacing: .14em;
+  font-size: var(--t-xs); font-weight: 600;
+  color: var(--gold-light);
+}
+.hero__next-value { color: var(--cream); font-weight: 500; }
+@media (max-width: 480px) {
+  .hero__next { flex-wrap: wrap; justify-content: center; row-gap: 2px; }
+}
+.hero__content .lede, .hero__content .hero__lede { margin-inline: auto; }
+.hero__actions { justify-content: center; }
+
+/* Service-times strip along the bottom edge of the hero. */
+.hero__bar {
+  position: relative;
+  border-top: 1px solid var(--line-on-ink);
+  background: rgba(26,15,10,.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.hero__bar-inner {
+  display: grid; gap: var(--s-4);
+  grid-template-columns: 1fr;
+  /* block-only reset: a bare `margin: 0` would cancel .wrap's inline auto
+     centring and slam this against the viewport edge. */
+  margin-block: 0;
+  padding-block: var(--s-4);
+}
+@media (min-width: 620px) { .hero__bar-inner { grid-template-columns: 1fr 1fr; } }
+.hero__bar dt {
+  font-size: var(--t-xs); font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--gold-light); margin-bottom: 3px;
+}
+.hero__bar dd { margin: 0; font-family: var(--font-display); font-size: var(--t-xl); color: var(--cream); }
+.hero__bar dd small {
+  display: block; font-family: var(--font-body); font-size: var(--t-sm);
+  color: var(--muted-on-ink); margin-top: 2px;
+}
+@keyframes drift {
+  from { transform: translate3d(0,0,0) scale(1); }
+  to   { transform: translate3d(-2.5%, 1.5%, 0) scale(1.07); }
+}
+
+.hero h1 { font-size: var(--t-hero); color: var(--cream); max-width: 16ch; }
+.hero h1 em {
+  font-style: italic;
+  color: var(--gold-light);
+  font-variation-settings: "SOFT" 40, "WONK" 1;
+}
+.hero__lede {
+  font-size: var(--t-lg);
+  color: var(--muted-on-ink);
+  margin-top: var(--s-4);
+  max-width: 46ch;
+}
+.hero__actions {
+  display: flex; flex-wrap: wrap; gap: var(--s-3);
+  margin-top: var(--s-6);
+}
+
+/* Service-time card floating over the hero */
+.hero__card {
+  margin-top: var(--s-7);
+  padding: var(--s-5);
+  background: rgba(251,246,238,.07);
+  border: 1px solid var(--line-on-ink);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  max-width: 560px;
+}
+.hero__card dl {
+  display: grid; gap: var(--s-4);
+  grid-template-columns: 1fr;
+  margin: 0;
+}
+@media (min-width: 560px) { .hero__card dl { grid-template-columns: 1fr 1fr; } }
+.hero__card dt {
+  font-size: var(--t-xs); font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 2px;
+}
+.hero__card dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--t-xl);
+  color: var(--cream);
+}
+.hero__card dd small {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--t-sm);
+  color: var(--muted-on-ink);
+  margin-top: 2px;
+}
+
+/* --- Cards -------------------------------------------------------------- */
+.grid { display: grid; gap: var(--s-4); }
+.grid--2 { grid-template-columns: 1fr; }
+.grid--3 { grid-template-columns: 1fr; }
+@media (min-width: 720px) {
+  .grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .grid--3 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1000px) { .grid--3 { grid-template-columns: repeat(3, 1fr); } }
+
+.card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--s-5);
+  box-shadow: var(--shadow);
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.card--hover:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.card__icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 46px; height: 46px; border-radius: 12px;
+  background: rgba(200,150,60,.14);
+  color: var(--gold-dim);
+  margin-bottom: var(--s-3);
+}
+.card h3 { font-size: var(--t-xl); margin-bottom: var(--s-2); }
+.card p { color: var(--muted); font-size: var(--t-sm); }
+
+/* Numbered "what to expect" list */
+.steps { display: grid; gap: var(--s-5); grid-template-columns: 1fr; counter-reset: step; }
+@media (min-width: 720px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+.step { display: flex; gap: var(--s-4); align-items: flex-start; }
+.step__num {
+  flex: 0 0 auto;
+  width: 42px; height: 42px; border-radius: 100px;
+  display: grid; place-items: center;
+  border: 1px solid var(--line-on-ink);
+  color: var(--gold-light);
+  font-family: var(--font-display); font-size: var(--t-lg);
+}
+.step h3 { font-size: var(--t-lg); margin-bottom: var(--s-1); }
+.step p { color: var(--muted-on-ink); font-size: var(--t-sm); }
+
+/* --- Media / sermons ---------------------------------------------------- */
+.feature {
+  display: grid; gap: var(--s-6);
+  grid-template-columns: 1fr;
+  align-items: center;
+}
+@media (min-width: 900px) { .feature { grid-template-columns: 1.15fr .85fr; } }
+
+/* aspect-ratio reserves space so swapping in a real image causes no CLS */
+.media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background:
+    radial-gradient(70% 90% at 25% 20%, rgba(200,150,60,.42), transparent 60%),
+    linear-gradient(150deg, var(--brand-deep), var(--ink));
+  border: 1px solid var(--line-on-ink);
+  display: grid; place-items: center;
+}
+/* Real YouTube embed. 16:9 to match the player, and the iframe fills the box
+   so the reserved space is exact — no shift when the player finally loads. */
+.media--video { aspect-ratio: 16 / 9; background: var(--ink); }
+.media--video iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+.media__play {
+  width: 74px; height: 74px; border-radius: 100px;
+  display: grid; place-items: center;
+  background: rgba(251,246,238,.94); color: var(--ink);
+  border: 0; cursor: pointer;
+  transition: transform var(--dur) var(--ease), background-color var(--dur) var(--ease);
+}
+.media__play:hover { transform: scale(1.07); background: var(--gold-light); }
+.media__tag {
+  position: absolute; top: var(--s-3); left: var(--s-3);
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 12px; border-radius: 100px;
+  background: rgba(26,15,10,.72);
+  font-size: var(--t-xs); font-weight: 600; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--cream);
+}
+.media__tag::before {
+  content: ""; width: 7px; height: 7px; border-radius: 100px;
+  background: var(--ember);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+
+.sermon-list { display: grid; gap: var(--s-2); }
+.sermon {
+  display: flex; align-items: center; gap: var(--s-4);
+  padding: var(--s-3) var(--s-4);
+  min-height: 64px;
+  border: 1px solid var(--line-on-ink);
+  border-radius: var(--radius);
+  background: rgba(251,246,238,.04);
+  color: inherit; text-decoration: none;
+  transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.sermon:hover { background: rgba(251,246,238,.09); border-color: var(--gold-dim); }
+.sermon__meta { flex: 1 1 auto; min-width: 0; }
+.sermon__title {
+  font-family: var(--font-display); font-size: var(--t-lg);
+  color: var(--cream); margin-bottom: 1px;
+}
+.sermon__sub { font-size: var(--t-xs); color: var(--muted-on-ink); }
+.sermon__dur {
+  flex: 0 0 auto; font-size: var(--t-xs);
+  color: var(--gold-light); font-variant-numeric: tabular-nums;
+}
+
+/* --- Shop --------------------------------------------------------------- */
+.book__cover {
+  /* 2:3 is the standard trade-paperback proportion, so a real cover fills the
+     panel without cropping. */
+  aspect-ratio: 2 / 3;
+  /* NB: background-size/position are NOT set here. The `background:` shorthand
+     further down resets both to their initial values (auto / 0% 0%), so any
+     declaration above it is silently dead. They live in the [data-loaded]
+     rule instead. */
+  /* Two-up cards are wide; without a cap a 3:4 cover grows to ~750px tall and
+     swamps the section. Keep it book-sized and centred. */
+  max-width: 280px;
+  margin-inline: auto;
+  border-radius: var(--radius);
+  margin-bottom: var(--s-4);
+  display: grid; place-items: center;
+  padding: var(--s-4);
+  text-align: center;
+  background: linear-gradient(155deg, var(--brand-deep), var(--ink));
+  color: var(--cream);
+  border: 1px solid rgba(200,150,60,.25);
+}
+.book__cover span {
+  font-family: var(--font-display);
+  font-size: var(--t-lg);
+  line-height: 1.2;
+}
+/* Real cover present: drop the gradient and the title stand-in. */
+/* Real cover present. Declared here, after the shorthand above, so it sticks. */
+.book__cover[data-loaded="true"] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border-color: var(--line);
+  /* background-origin is padding-box, so the placeholder's 24px padding was
+     insetting the artwork. The cover should bleed to the edge. */
+  padding: 0;
+}
+.book__cover[data-loaded="true"] span { display: none; }
+.book__row {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--s-3); margin-bottom: var(--s-3);
+}
+.book__price {
+  font-family: var(--font-display); font-size: var(--t-xl);
+  color: var(--ink); font-variant-numeric: tabular-nums;
+}
+.book__author { font-size: var(--t-sm); color: var(--muted); }
+
+/* Three-up variant of .steps, used by the "what to expect" cards. */
+.steps--three { grid-template-columns: 1fr; }
+@media (min-width: 720px)  { .steps--three { grid-template-columns: repeat(3, 1fr); } }
+
+/* --- Pull quote ---------------------------------------------------------
+   The rhythm break. Every other section runs on --s-8; this one runs on
+   --s-9 and holds a single sentence, so the page stops and breathes before
+   the sermon. Its job is the emptiness around the words — don't fill it. */
+.quote {
+  position: relative;
+  padding-block: var(--s-9);
+  background: var(--ink);
+  color: var(--cream);
+  text-align: center;
+  overflow: hidden;
+  isolation: isolate;
+}
+/* A single warm source overhead, echoing the hero without repeating it. */
+.quote::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background:
+    radial-gradient(52% 44% at 50% 0%, rgba(232,178,88,.20), transparent 70%),
+    linear-gradient(180deg, #150B05 0%, var(--ink) 55%, #0C0604 100%);
+}
+@media (max-width: 640px) { .quote { padding-block: var(--s-8); } }
+
+/* Oversized quote mark, set as texture rather than punctuation. */
+.quote__mark {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 12vw, 11rem);
+  line-height: .6;
+  color: var(--gold);
+  opacity: .28;
+  margin-bottom: var(--s-3);
+  user-select: none;
+}
+.quote blockquote { margin: 0; }
+.quote p {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-style: italic;
+  font-size: clamp(1.9rem, 4.4vw + .6rem, 4rem);
+  line-height: 1.14;
+  letter-spacing: -.02em;
+  color: var(--cream);
+  max-width: 18ch;
+  margin-inline: auto;
+  font-variation-settings: "SOFT" 40, "WONK" 1;
+  text-wrap: balance;
+}
+.quote cite {
+  display: block;
+  margin-top: var(--s-5);
+  font-family: var(--font-body);
+  font-style: normal;
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+}
+/* Slower and further than the standard reveal, so it reads as an arrival. */
+.quote [data-reveal] { transition-duration: 900ms; }
+.quote [data-reveal]:not(.is-visible) { transform: translate3d(0, 26px, 0); }
+
+/* --- Leadership --------------------------------------------------------- */
+/* Square portrait slot. aspect-ratio holds the space so dropping in the real
+   photo shifts nothing. */
+.person__photo {
+  aspect-ratio: 1 / 1;
+  max-width: 168px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: var(--s-4);
+  display: grid; place-items: center;
+  background:
+    radial-gradient(70% 70% at 32% 24%, rgba(200,150,60,.34), transparent 62%),
+    linear-gradient(150deg, var(--brand-deep), var(--ink));
+  border: 1px solid rgba(200,150,60,.3);
+}
+.person__photo > img { width: 100%; height: 100%; object-fit: cover; }
+.person__photo span {
+  font-size: var(--t-xs); font-weight: 600;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: rgba(251,246,238,.5);
+}
+/* Real portrait present. `cover` + centre-top keeps a head near the top of the
+   frame from being cropped at the forehead when squared off into a circle. */
+.person__photo[data-loaded="true"] {
+  background-size: cover;
+  background-position: center 22%;
+  background-color: transparent;
+}
+.person__photo[data-loaded="true"] span { display: none; }
+
+/* Second bio paragraph. Slightly quieter than the first so the card reads as
+   lead-then-detail rather than two equal blocks. */
+.person__bio2 {
+  margin-top: var(--s-3) !important;
+  font-size: var(--t-sm);
+  color: var(--muted);
+}
+.person__role {
+  font-size: var(--t-xs); font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: var(--s-2) !important;
+}
+
+/* --- Giving ------------------------------------------------------------- */
+.give {
+  display: grid; gap: var(--s-6);
+  grid-template-columns: 1fr;
+  align-items: center;
+}
+@media (min-width: 900px) { .give { grid-template-columns: 1fr 1fr; } }
+.amounts { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-bottom: var(--s-4); }
+.amount {
+  min-height: 48px; padding: 0 var(--s-4);
+  border-radius: 100px;
+  border: 1px solid var(--line-on-ink);
+  background: transparent; color: var(--cream);
+  font: inherit; font-weight: 600; font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease),
+              border-color var(--dur) var(--ease);
+}
+.amount:hover { border-color: var(--gold-light); }
+.amount[aria-pressed="true"] { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+
+/* --- Interac e-Transfer -------------------------------------------------
+   No card fields, no processor redirect — the visitor sends from their own
+   bank. The only job here is making the address impossible to mistype. */
+.etransfer__label {
+  font-size: var(--t-xs); font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: var(--s-2);
+}
+.etransfer {
+  display: flex; align-items: stretch; gap: var(--s-2);
+  flex-wrap: wrap;
+}
+.etransfer code {
+  flex: 1 1 12rem;
+  display: flex; align-items: center;
+  min-height: 52px;
+  padding: 0 var(--s-3);
+  font-family: var(--font-body);
+  font-size: var(--t-base);
+  font-weight: 500;
+  color: var(--cream);
+  background: rgba(251,246,238,.06);
+  border: 1px solid var(--line-on-ink);
+  border-radius: var(--radius-sm);
+  word-break: break-all;
+  user-select: all;            /* one tap selects the whole address */
+}
+.etransfer__copy {
+  flex: 0 0 auto;
+  min-height: 52px; min-width: 96px;
+  padding: 0 var(--s-4);
+  border: 0; border-radius: var(--radius-sm);
+  background: var(--gold); color: var(--ink);
+  font: inherit; font-size: var(--t-sm); font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--dur) var(--ease);
+}
+.etransfer__copy:hover { background: var(--gold-light); }
+.etransfer__copy[data-copied="true"] { background: var(--gold-light); }
+
+/* --- Bank picker --------------------------------------------------------
+   Names, not logos: bank marks are trademarked, and nine images would cost
+   more than the rest of the page combined. These only open each bank's
+   sign-in — nothing is pre-filled, because Interac provides no way to. */
+.banks__label {
+  margin-top: var(--s-5);
+  margin-bottom: var(--s-3);
+  font-size: var(--t-xs); font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--gold-light);
+}
+.banks {
+  display: flex; flex-wrap: wrap; gap: var(--s-2);
+}
+.bank {
+  display: inline-flex; align-items: center;
+  min-height: 44px;                       /* touch minimum */
+  padding: 0 var(--s-3);
+  border: 1px solid var(--line-on-ink);
+  border-radius: 100px;
+  font-size: var(--t-sm); font-weight: 500;
+  color: var(--muted-on-ink);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color var(--dur) var(--ease),
+              color var(--dur) var(--ease),
+              background-color var(--dur) var(--ease);
+}
+.bank:hover {
+  border-color: var(--gold-light);
+  color: var(--cream);
+  background: rgba(251,246,238,.06);
+}
+.banks__note {
+  margin-top: var(--s-3);
+  font-size: var(--t-xs);
+  color: var(--muted-on-ink);
+}
+
+/* --- Form --------------------------------------------------------------- */
+.field { margin-bottom: var(--s-4); }
+.field label {
+  display: block; font-size: var(--t-sm); font-weight: 600;
+  margin-bottom: 6px; color: var(--body);
+}
+.field .req { color: var(--ember); }
+.field input, .field select, .field textarea {
+  width: 100%; min-height: 50px;
+  padding: var(--s-2) var(--s-3);
+  font: inherit; font-size: var(--t-base);
+  color: var(--body); background: var(--paper);
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.field textarea { min-height: 116px; resize: vertical; }
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--gold-dim);
+  box-shadow: 0 0 0 3px rgba(200,150,60,.2);
+  outline: none;
+}
+.field .hint { font-size: var(--t-xs); color: var(--muted); margin-top: 5px; }
+.field .err { font-size: var(--t-xs); color: #B3261E; margin-top: 5px; display: none; }
+.field[data-invalid="true"] input,
+.field[data-invalid="true"] select { border-color: #B3261E; }
+.field[data-invalid="true"] .err { display: block; }
+
+.form-note {
+  padding: var(--s-3) var(--s-4);
+  background: rgba(200,150,60,.10);
+  border: 1px solid rgba(200,150,60,.3);
+  border-radius: var(--radius-sm);
+  font-size: var(--t-sm); color: var(--body);
+}
+
+/* --- Footer ------------------------------------------------------------- */
+.footer { background: var(--ink); color: var(--muted-on-ink); padding-block: var(--s-7) var(--s-5); }
+.footer__grid {
+  display: grid; gap: var(--s-6);
+  grid-template-columns: 1fr;
+  margin-bottom: var(--s-6);
+}
+@media (min-width: 760px) { .footer__grid { grid-template-columns: 1.4fr 1fr 1fr; } }
+.footer h3 {
+  font-family: var(--font-body); font-size: var(--t-xs); font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--gold-light); margin-bottom: var(--s-3);
+}
+.footer a { color: var(--muted-on-ink); text-decoration: none; }
+.footer a:hover { color: var(--cream); text-decoration: underline; }
+.footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-1); }
+/* Phone and email in the footer are real tap targets on a phone — give them
+   the full 44px rather than the 21px a bare inline link gets. */
+.footer ul a { display: inline-block; padding-block: 11px; }
+.footer__base {
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line-on-ink);
+  display: flex; flex-wrap: wrap; gap: var(--s-3);
+  justify-content: space-between;
+  font-size: var(--t-xs);
+}
+
+/* --- Scroll reveal ------------------------------------------------------ */
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition: opacity 620ms var(--ease), transform 620ms var(--ease);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+[data-reveal].is-visible { opacity: 1; transform: none; }
+
+/* Hero intro — runs on load rather than on scroll */
+.hero [data-intro] {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  animation: rise 900ms var(--ease) forwards;
+  animation-delay: var(--intro-delay, 0ms);
+}
+@keyframes rise { to { opacity: 1; transform: none; } }
+
+/* Motion opt-out. Everything above degrades to a static, fully visible page. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+  [data-reveal] { opacity: 1; transform: none; }
+  .hero [data-intro] { opacity: 1; transform: none; }
+  .hero__bg { animation: none; }
+}
+
+/* Fallback: if JS never runs, content must not stay invisible */
+.no-js [data-reveal] { opacity: 1; transform: none; }
+
+/* ==========================================================================
+   Morning Light — brighter palette
+   Appended override. Works by re-pointing tokens rather than rewriting rules;
+   deleting this whole block restores the previous look exactly.
+   ========================================================================== */
+:root{
+  --ink:#2A1C12;
+  /* The Sermons section carries an inline `background:var(--ink-soft)` in the
+     HTML, which outranks any rule here. Re-pointing the token itself flips
+     that band to light without needing !important — and keeps the author's
+     intent that it read as a slightly different tone from its neighbours. */
+  --ink-soft:#F1E7D8;
+  --anchor:#3B2416;   /* the one dark ground left: the footer */
+  --brand-deep:#9A4A16;
+  --gold-dim:#85601F;
+  --ember:#B23A22;
+  --cream:#FDFAF5; --paper:#FFFFFF;
+  --sand:#F6EFE3;  --honey:#FBF1DD;
+  --body:#33241A;  --muted:#6A5648;
+  --line:#EADFCD;
+  --shadow:0 1px 2px rgba(58,36,22,.05), 0 8px 24px -12px rgba(58,36,22,.14);
+  --shadow-lg:0 2px 4px rgba(58,36,22,.05), 0 24px 56px -20px rgba(58,36,22,.20);
+}
+
+/* --- The flip -----------------------------------------------------------
+   These five regions changed from a dark ground to a light one. Rather than
+   rewriting every `color: var(--cream)` inside them, re-point the tokens at
+   the subtree root: "light text on dark" now resolves to dark text on light. */
+.hero, .header, .drawer, .section--ink, .quote{
+  --cream:#33241A;
+  --gold-light:#85601F;
+  --muted-on-ink:#6A5648;
+  --line-on-ink:#EADFCD;
+}
+
+/* --- The dark islands ---------------------------------------------------
+   These components keep a dark ground on purpose — media panels, the sermon
+   row, portrait wells, the footer — so they need the original set back. */
+.media, .person__photo, .media__tag, .book__cover, .btn--dark, .footer{
+  --cream:#FDFAF5;
+  --gold-light:#E8C069;
+  --muted-on-ink:#D9C8B6;
+  --line-on-ink:rgba(232,192,105,.22);
+}
+
+/* --- Grounds ------------------------------------------------------------ */
+.section--ink{ background:var(--sand); color:var(--body); }
+#give{ background:var(--honey); }
+.section--ink .eyebrow{ color:var(--gold-dim); }
+
+.header[data-scrolled="true"]{
+  background:rgba(253,250,245,.92);
+  border-bottom-color:var(--line);
+}
+.nav__link:hover{ color:var(--ink); background:rgba(58,36,22,.06); }
+.nav__link[aria-current="true"]{ color:var(--gold-dim); }
+.burger{ border-color:rgba(58,36,22,.20); }
+
+/* Hero: dawn instead of a black room. The scrim flips to a light wash so
+   dark type still holds once a real photograph goes in behind it. */
+.hero__bg{
+  background:
+    radial-gradient(60% 44% at 50% 8%, rgba(255,226,170,.55), transparent 72%),
+    linear-gradient(168deg,#FFF9EF 0%,#F6E7CE 52%,#E8D0A6 100%);
+}
+.hero__scrim{
+  /* Tuned against a worst-case bright photograph (open sky + snow). The small
+     uppercase eyebrow is 13px, so it needs 4.5:1 where the headline only needs
+     3 — it fails first, and it sets these numbers. This is the lightest wash
+     that still clears it with margin, so the photograph stays visible. */
+  background:
+    radial-gradient(56% 42% at 50% 49%, rgba(253,250,245,.74), transparent 76%),
+    linear-gradient(0deg, rgba(253,250,245,.48) 0%, transparent 38%);
+}
+/* Deeper than --gold-dim: buys margin on the brightest part of any photo. */
+.hero .eyebrow{ color:#6B4E12; }
+.hero__seal{ opacity:.05; }
+.hero__card{ background:rgba(255,255,255,.58); border-color:rgba(58,36,22,.12); }
+.hero__next{ background:rgba(255,255,255,.58); border-color:rgba(58,36,22,.16); }
+.hero__bar{ background:rgba(255,255,255,.52); border-top-color:rgba(58,36,22,.12); }
+
+/* Ghost button sat on the dark hero; give it a visible edge on light */
+.btn--ghost{ border-color:rgba(58,36,22,.28); }
+.btn--ghost:hover{ border-color:var(--gold-dim); color:var(--gold-dim); }
+/* --gold-light is re-pointed above, so restore the primary hover explicitly */
+.btn--primary:hover{ background:#E8C069; }
+
+/* Hover tints were near-white on dark; invert them for a light ground */
+.sermon:hover{ background:rgba(58,36,22,.05); border-color:var(--gold-dim); }
+.amount:hover{ border-color:var(--gold-dim); }
+
+/* Quote: a honey band with dark type, not a black slab */
+.quote::before{
+  background:
+    radial-gradient(52% 44% at 50% 0%, rgba(200,150,60,.20), transparent 70%),
+    linear-gradient(180deg,#FDF6E7 0%,#FBF1DD 55%,#F4E6C9 100%);
+}
+.quote__mark{ color:var(--gold); opacity:.42; }
+
+/* Footer stays deep — one anchor closes the page */
+.footer{ background:var(--anchor); }
+
+/* Base grounds behind the decorative layers. Both are covered by .hero__bg
+   and .quote::before, but a dark value here shows through on any paint the
+   layer above doesn't reach. */
+.hero{ background:#FDFAF5; }   /* literal: --cream is re-pointed inside .hero */
+.quote{ background:var(--honey); }
+
+/* The sermon row sits on sand now, so its near-white 4% tint was invisible */
+.sermon{ background:rgba(255,255,255,.66); border-color:var(--line); }
+
+/* The clip was darkened 28% to sit under light type. On a bright hero that
+   reads as grey murk, so lift it and let the light scrim do the work. */
+.hero__video{ filter:saturate(.94) brightness(1.04); }

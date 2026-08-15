@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en-CA" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tabernacle of Prayer Parish — A church in Ottawa</title>
+<meta name="description" content="A Spirit-filled church in Ottawa. Sunday worship 11am–1pm, Wednesday 7–8:30pm, and a night vigil the last Friday of every month. Everyone is welcome — come as you are.">
+<meta name="theme-color" content="#1A0F0A">
+
+<!-- Open Graph: controls how the site looks when shared to Facebook/WhatsApp,
+     which is how most people will actually pass it around. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Tabernacle of Prayer Parish — A church in Ottawa">
+<!-- Social scrapers read the raw HTML and never run our JS, so this must be
+     correct here — the runtime i18n update does not reach it. -->
+<meta property="og:description" content="Sunday worship 11am–1pm, Wednesday 7–8:30pm, and a night vigil the last Friday of every month. Everyone is welcome.">
+<meta property="og:locale" content="en_CA">
+<meta property="og:locale:alternate" content="fr_CA">
+<meta property="og:url" content="https://tabernacle-of-prayer-ottawa.netlify.app/">
+<meta property="og:image" content="https://tabernacle-of-prayer-ottawa.netlify.app/assets/img/og-share.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Tabernacle of Prayer Parish crest over a city at dawn">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="canonical" href="https://tabernacle-of-prayer-ottawa.netlify.app/">
+<link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="brand/favicon-16.png">
+<link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
+
+<!-- Lets Google show service times and address directly in search results.
+     Only verified facts here — no postal code, because we don't have one. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Church",
+  "name": "Tabernacle of Prayer Parish",
+  "parentOrganization": { "@type": "Organization", "name": "New Life In Christ Ministry" },
+  "url": "https://tabernacle-of-prayer-ottawa.netlify.app/",
+  "logo": "https://tabernacle-of-prayer-ottawa.netlify.app/brand/logo.jpg",
+  "image": "https://tabernacle-of-prayer-ottawa.netlify.app/assets/img/og-share.jpg",
+  "telephone": "+1-613-255-0444",
+  "email": "topprayyer@gmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "2784 A Lancaster Rd",
+    "addressLocality": "Ottawa",
+    "addressRegion": "ON",
+    "addressCountry": "CA"
+  },
+  "founder": { "@type": "Person", "name": "Apostle Cornelius Olajide Babalola" },
+  "sameAs": ["https://www.youtube.com/@TABERNACLEOFPRAYEROTTAWA"],
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday",    "opens": "11:00", "closes": "13:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Wednesday", "opens": "19:00", "closes": "20:30" }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap">
+<!-- Bump ?v= whenever you edit the CSS or JS. Static hosts cache these
+     aggressively and visitors otherwise keep the old copy. -->
+<link rel="stylesheet" href="assets/css/styles.css?v=10">
+</head>
+<body>
+
+<a class="skip" href="#main" data-i18n="skip">Skip to main content</a>
+
+<header class="header">
+  <div class="wrap header__inner">
+    <a class="brand" href="#top">
+      <!-- Crest. Loader tries svg -> webp -> png -> jpg; see initLogo(). -->
+      <img class="brand__logo" src="brand/logo.jpg" alt="" width="38" height="38"
+           data-logo hidden>
+      <svg class="brand__mark" width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+        <path d="M13 1.5 15.6 9.4 23.5 12 15.6 14.6 13 22.5 10.4 14.6 2.5 12 10.4 9.4Z" fill="currentColor"/>
+      </svg>
+      <span>Tabernacle of Prayer</span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <a class="nav__link" href="#about"   data-i18n="nav.about">Our church</a>
+      <a class="nav__link" href="#sermons" data-i18n="nav.sermons">Sermons</a>
+      <a class="nav__link" href="#shop"    data-i18n="nav.shop">Bookshop</a>
+      <a class="nav__link" href="#give"    data-i18n="nav.give">Give</a>
+    </nav>
+
+    <div class="lang" role="group" aria-label="Language / Langue">
+      <button class="lang__btn" type="button" data-lang="en" aria-pressed="true"  lang="en">EN</button>
+      <button class="lang__btn" type="button" data-lang="fr" aria-pressed="false" lang="fr">FR</button>
+    </div>
+
+    <button class="burger" type="button" aria-expanded="false" aria-controls="drawer"
+            data-i18n-attr="aria-label:nav.menu" aria-label="Open menu">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M2 5h16M2 10h16M2 15h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="wrap">
+    <div class="drawer" id="drawer" data-open="false">
+      <a class="drawer__link" href="#about"   data-i18n="nav.about">Our church</a>
+      <a class="drawer__link" href="#sermons" data-i18n="nav.sermons">Sermons</a>
+      <a class="drawer__link" href="#shop"    data-i18n="nav.shop">Bookshop</a>
+      <a class="drawer__link" href="#give"    data-i18n="nav.give">Give</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ===== Hero =====
+     Full-bleed Ottawa cityscape behind centred type.
+     Drop an image at assets/img/ottawa.jpg (or .webp) and it takes over the
+     background automatically — see initHeroImage() in app.js. Until then the
+     gradient below stands in. Aim for a wide aerial/skyline shot, ideally
+     with sky in the upper third so the nav stays legible. -->
+<section class="hero" id="top">
+  <!-- Background stack, in priority order:
+       video (assets/video/hero.mp4) > photo (assets/img/ottawa.jpg) > CSS.
+       Each replaces the one below it automatically. -->
+  <video class="hero__video" data-hero-video muted loop playsinline
+         preload="none" aria-hidden="true" hidden></video>
+  <div class="hero__bg" data-hero-img aria-hidden="true"></div>
+  <div class="hero__scrim" aria-hidden="true"></div>
+
+  <!-- The crest, very large and very faint, as a focal anchor behind the type.
+       Without it the hero is text floating on a gradient. -->
+  <div class="hero__seal" aria-hidden="true"></div>
+
+  <div class="wrap hero__content">
+    <p class="eyebrow" data-intro style="--intro-delay:120ms" data-i18n="hero.eyebrow">Ottawa, Ontario</p>
+
+    <!-- The mask wrapper is what makes the headline rise out of nothing rather
+         than just fading. Kept to the whole block, not per line, because the
+         line breaks differ between English and French. -->
+    <h1 class="hero__title">
+      <span class="mask"><span class="mask__in" style="--intro-delay:240ms">
+        <span data-i18n="hero.title_a">You're welcome</span>
+        <em data-i18n="hero.title_b">here</em>
+      </span></span>
+    </h1>
+
+    <p class="hero__lede" data-intro style="--intro-delay:560ms" data-i18n="hero.lede">
+      Whatever brought you looking today — curiosity, a hard season, or a long time away — there's a seat for you on Sunday. No dress code. No pressure.
+    </p>
+
+    <div class="hero__actions" data-intro style="--intro-delay:700ms">
+      <a class="btn btn--primary" href="#about" data-i18n="hero.cta_visit">Meet our church</a>
+      <a class="btn btn--ghost" href="https://www.google.com/maps/dir/?api=1&amp;destination=2784+A+Lancaster+Rd%2C+Ottawa%2C+ON"
+         target="_blank" rel="noopener" data-i18n="hero.cta_watch">Come this Sunday</a>
+    </div>
+
+    <!-- Live: computed from the real schedule in Ottawa time. Gives a newcomer
+         the one thing they actually want — when can I come? -->
+    <p class="hero__next" data-intro style="--intro-delay:840ms" hidden>
+      <span class="hero__next-dot" aria-hidden="true"></span>
+      <span class="hero__next-label" data-i18n="hero.next_label">Next gathering</span>
+      <span class="hero__next-value" id="next-gathering"></span>
+    </p>
+  </div>
+
+</section>
+
+<!-- ===== What to expect =====
+     Every claim here is confirmed by the church. Do not add amenities —
+     an earlier version invented a nursery and a coffee lobby, and a family
+     could have arrived expecting childcare that doesn't exist. -->
+<section class="section section--ink section--lead">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow" data-i18n="expect.eyebrow">What to expect</p>
+      <h2 style="font-size:var(--t-3xl)" data-i18n="expect.title">Your first Sunday, before you arrive</h2>
+      <p class="lede" data-i18n="expect.lede">
+        Walking into a new church is uncomfortable when you don't know how it goes. Here's the whole thing, so nothing catches you off guard.
+      </p>
+    </div>
+
+    <div class="steps steps--three">
+      <div class="step" data-reveal>
+        <div class="step__num" aria-hidden="true">1</div>
+        <div>
+          <h3 data-i18n="expect.1_t">Arriving</h3>
+          <p data-i18n="expect.1_b">Someone will greet you at the door. That's all there is to it — no forms, no sign-in, and nobody will follow up unless you ask them to.</p>
+        </div>
+      </div>
+      <div class="step" data-reveal>
+        <div class="step__num" aria-hidden="true">2</div>
+        <div>
+          <h3 data-i18n="expect.2_t">Where to sit</h3>
+          <p data-i18n="expect.2_b">Anywhere you like. The only exception is the occasional special programme, when part of the seating may be set aside.</p>
+        </div>
+      </div>
+      <div class="step" data-reveal>
+        <div class="step__num" aria-hidden="true">3</div>
+        <div>
+          <h3 data-i18n="expect.3_t">Bringing children</h3>
+          <p data-i18n="expect.3_b">We don't run a separate children's programme yet, so little ones stay with you in the service. Nobody minds the noise.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== About the church ===== -->
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow" data-i18n="about.eyebrow">Our church</p>
+      <h2 style="font-size:var(--t-3xl)" data-i18n="about.title">A house of prayer in Ottawa</h2>
+      <p class="lede" data-i18n="about.lede">
+        Tabernacle of Prayer Parish is a Spirit-filled congregation on Lancaster Road, part of The New Life In Christ Ministry. We gather every Sunday from 11 to 1, meet again on Wednesday evenings, and keep watch together through the last Friday night of each month.
+      </p>
+    </div>
+
+    <p class="eyebrow" data-reveal data-i18n="about.leaders">Our leadership</p>
+    <div class="grid grid--2" style="margin-top:var(--s-4)">
+      <article class="card" data-reveal>
+        <!-- Drop assets/img/pastor-1.jpg and it fills automatically. -->
+        <div class="person__photo" data-person="1" aria-hidden="true"><span>Photo</span></div>
+        <h3 data-i18n="about.p1_n">Apostle Cornelius Olajide Babalola</h3>
+        <p class="person__role" data-i18n="about.p1_r">Founder &amp; Spiritual Leader</p>
+        <p data-i18n="about.p1_b">
+          Apostle Cornelius Olajide Babalola is a seasoned servant of God, prayer warrior, teacher of the Word, and visionary leader with decades of faithful ministry experience.
+        </p>
+        <p class="person__bio2" data-i18n="about.p1_b2">
+          Known for his unwavering trust in God and his inspiring message, “God will do what He says He will do,” Apostle Babalola has impacted many lives through his teachings, counseling, and spiritual guidance.
+        </p>
+      </article>
+
+      <article class="card" data-reveal>
+        <!-- Drop assets/img/pastor-2.jpg and it fills automatically. -->
+        <div class="person__photo" data-person="2" aria-hidden="true"><span>Photo</span></div>
+        <h3 data-i18n="about.p2_n">Pastor (Mrs.) Ansa Adebola Babalola</h3>
+        <p class="person__role" data-i18n="about.p2_r">Pastor</p>
+        <p data-i18n="about.p2_b">
+          Pastor (Mrs.) Ansa Adebola Babalola is a devoted servant of God, inspirational writer, and church leader based in Ottawa, Canada. She serves faithfully alongside her husband at the Tabernacle of Prayer Ministry.
+        </p>
+        <p class="person__bio2" data-i18n="about.p2_b2">
+          She is also the convener of the annual Queen Esther’s Banquet, inspiring women to rise in purpose, resilience, and faith.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Pull quote =====
+     A deliberate pause between meeting the leaders and hearing him preach.
+     Taller and far sparser than any other section — the rhythm break is the
+     point, so resist adding anything else in here. -->
+<section class="quote" aria-labelledby="quote-text">
+  <div class="wrap">
+    <span class="quote__mark" aria-hidden="true">&ldquo;</span>
+    <blockquote data-reveal>
+      <p id="quote-text" data-i18n="quote.text">God will do what He says He will do.</p>
+      <cite data-i18n="quote.attr">Apostle Cornelius Olajide Babalola</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ===== Sermons ===== -->
+<section class="section section--ink" id="sermons" style="background:var(--ink-soft)">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow" data-i18n="sermons.eyebrow">Sermons</p>
+      <h2 style="font-size:var(--t-3xl)" data-i18n="sermons.title">Listen before you visit</h2>
+      <p class="lede" data-i18n="sermons.lede">
+        Every message is posted here by Monday. A good way to get a feel for us without walking through the door first.
+      </p>
+    </div>
+
+    <div class="feature">
+      <!-- youtube-nocookie: no tracking cookie is set until the visitor actually
+           presses play. loading="lazy" keeps the ~1MB player off the critical
+           path, since this sits below the fold. -->
+      <div class="media media--video" data-reveal>
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/hrMvUGcZoS8?rel=0"
+          title="Message by Rev Cornelius Babalola — Rise Up Canada 2023"
+          loading="lazy" allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+      </div>
+
+      <div data-reveal>
+        <div class="sermon-list">
+          <a class="sermon" href="https://www.youtube.com/watch?v=hrMvUGcZoS8"
+             target="_blank" rel="noopener">
+            <div class="sermon__meta">
+              <div class="sermon__title" data-i18n="sermons.s1_t">Message by Rev Cornelius Babalola</div>
+              <div class="sermon__sub" data-i18n="sermons.s1_s">Rise Up Canada · October 2023</div>
+            </div>
+            <span class="sermon__dur">19:19</span>
+          </a>
+        </div>
+        <p style="margin-top:var(--s-4)">
+          <a class="btn btn--ghost" href="https://www.youtube.com/@TABERNACLEOFPRAYEROTTAWA"
+             target="_blank" rel="noopener" data-i18n="sermons.all">Browse all sermons</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Bookshop ===== -->
+<section class="section section--tight" id="shop">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow" data-i18n="shop.eyebrow">Bookshop</p>
+      <h2 style="font-size:var(--t-3xl)" data-i18n="shop.title">Books from our teaching</h2>
+      <p class="lede" data-i18n="shop.lede">
+        Written by our pastoral team and a few friends of the house. Pick one up on Sunday, or order it and we'll ship anywhere in Canada.
+      </p>
+    </div>
+
+    <div class="grid grid--2">
+      <article class="card card--hover" data-reveal>
+        <div class="book__cover" data-book="1"><span data-i18n="shop.b1_t">Echoes of a Praying Heart</span></div>
+        <div class="book__row">
+          <h3 style="font-size:var(--t-lg)" data-i18n="shop.b1_t">Echoes of a Praying Heart</h3>
+          <span class="book__price">$15</span>
+        </div>
+        <p class="book__author" data-i18n="shop.b1_a">Apostle Cornelius Olajide Babalola · 136 pages</p>
+        <p style="margin-top:var(--s-4)">
+          <a class="btn btn--dark btn--wide" href="https://www.amazon.ca/dp/B0H52ZH3Y3"
+             target="_blank" rel="noopener" data-i18n="shop.buy">Buy on Amazon</a>
+        </p>
+      </article>
+
+      <article class="card card--hover" data-reveal>
+        <div class="book__cover" data-book="2"><span data-i18n="shop.b2_t">Footsteps of Destiny</span></div>
+        <div class="book__row">
+          <h3 style="font-size:var(--t-lg)" data-i18n="shop.b2_t">Footsteps of Destiny</h3>
+          <span class="book__price">$20</span>
+        </div>
+        <p class="book__author" data-i18n="shop.b2_a">Apostle Cornelius Olajide Babalola · 196 pages</p>
+        <p style="margin-top:var(--s-4)">
+          <a class="btn btn--dark btn--wide" href="https://www.amazon.ca/dp/B0H56C8QND"
+             target="_blank" rel="noopener" data-i18n="shop.buy">Buy on Amazon</a>
+        </p>
+      </article>
+          </div>
+
+    <p class="lede" style="font-size:var(--t-sm);margin-top:var(--s-5)" data-reveal data-i18n="shop.note">
+      Orders are handled by our store partner. Shipping across Canada, or collect free on Sunday.
+    </p>
+  </div>
+</section>
+
+<!-- ===== Giving ===== -->
+<section class="section section--ink" id="give">
+  <div class="wrap">
+    <div class="give">
+      <div data-reveal>
+        <p class="eyebrow" data-i18n="give.eyebrow">Giving</p>
+        <h2 style="font-size:var(--t-3xl)" data-i18n="give.title">Give to the work here</h2>
+        <p class="lede" data-i18n="give.lede">
+          Giving pays for our building, our staff, our kids' programs, and the food bank we run on Thursdays. Every dollar is accounted for in our annual report.
+        </p>
+        <p class="lede" style="font-size:var(--t-sm);margin-top:var(--s-4)" data-i18n="give.receipt">
+          Tax receipts are issued each February for all gifts over $20.
+        </p>
+      </div>
+
+      <div class="hero__card" style="margin-top:0" data-reveal>
+        <p style="font-size:var(--t-xs);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light);margin-bottom:var(--s-3)"
+           id="give-label" data-i18n="give.amount_label">Choose an amount</p>
+
+        <div class="amounts" role="group" aria-labelledby="give-label">
+          <button class="amount" type="button" aria-pressed="false">$25</button>
+          <button class="amount" type="button" aria-pressed="true">$50</button>
+          <button class="amount" type="button" aria-pressed="false">$100</button>
+          <button class="amount" type="button" aria-pressed="false">$250</button>
+        </div>
+
+        <div class="field">
+          <label for="give-custom" data-i18n="give.custom">Other amount</label>
+          <input id="give-custom" type="number" min="1" step="1" inputmode="numeric" placeholder="$">
+        </div>
+
+        <p class="etransfer__label" data-i18n="give.etransfer_label">Send an Interac e-Transfer to</p>
+        <div class="etransfer">
+          <code id="etransfer-email">topprayyer@gmail.com</code>
+          <button class="etransfer__copy" type="button"
+                  data-copy="topprayyer@gmail.com"
+                  data-i18n-attr="aria-label:give.copy">
+            <span data-i18n="give.copy">Copy</span>
+          </button>
+        </div>
+        <!-- Interac has no deep-link scheme — a website cannot pre-fill a
+             transfer. These just open each bank's sign-in so the giver isn't
+             hunting for it; the address above is already on their clipboard. -->
+        <p class="banks__label" data-i18n="give.banks_label">Or open your bank</p>
+        <div class="banks">
+          <a class="bank" href="https://www.rbcroyalbank.com/" target="_blank" rel="noopener">RBC</a>
+          <a class="bank" href="https://easyweb.td.com/" target="_blank" rel="noopener">TD</a>
+          <a class="bank" href="https://www.scotiabank.com/ca/en/personal.html" target="_blank" rel="noopener">Scotiabank</a>
+          <a class="bank" href="https://www1.bmo.com/banking/digital/login" target="_blank" rel="noopener">BMO</a>
+          <a class="bank" href="https://www.cibc.com/en/personal-banking.html" target="_blank" rel="noopener">CIBC</a>
+          <a class="bank" href="https://www.tangerine.ca/" target="_blank" rel="noopener">Tangerine</a>
+          <a class="bank" href="https://www.simplii.com/" target="_blank" rel="noopener">Simplii</a>
+          <a class="bank" href="https://www.desjardins.com/" target="_blank" rel="noopener">Desjardins</a>
+          <a class="bank" href="https://www.nbc.ca/" target="_blank" rel="noopener">National Bank</a>
+        </div>
+        <p class="banks__note" data-i18n="give.banks_note">
+          Sign in, then send an e-Transfer to the address above.
+        </p>
+
+        <p style="font-size:var(--t-xs);color:var(--muted-on-ink);margin-top:var(--s-3)" data-i18n="give.note">
+          Please include your name in the message so we can issue your tax receipt. No card details are ever entered on this site.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <a class="brand" href="#top" style="margin-bottom:var(--s-3)">
+          <img class="brand__logo" src="brand/logo.png" alt="" width="34" height="34"
+               data-logo hidden>
+          <svg class="brand__mark" width="24" height="24" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+            <path d="M13 1.5 15.6 9.4 23.5 12 15.6 14.6 13 22.5 10.4 14.6 2.5 12 10.4 9.4Z" fill="currentColor"/>
+          </svg>
+          <span>Tabernacle of Prayer</span>
+        </a>
+        <p style="font-size:var(--t-sm);max-width:34ch;margin-bottom:var(--s-3)" data-i18n="footer.ministry">
+          New Life In Christ Ministry — Tabernacle of Prayer Parish
+        </p>
+        
+      </div>
+
+      <div>
+        <h3 data-i18n="footer.address">Address</h3>
+        <ul>
+          <li>2784 A Lancaster Rd</li>
+          <li>Ottawa, ON</li>  <!-- TODO: add postal code -->
+          <li><a href="tel:+16132550444">(613) 255-0444</a></li>
+          <li><a href="mailto:topprayyer@gmail.com">topprayyer@gmail.com</a></li>
+          <li><a href="https://www.youtube.com/@TABERNACLEOFPRAYEROTTAWA" target="_blank" rel="noopener" data-i18n="footer.youtube">Watch on YouTube</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 data-i18n="footer.times">Service times</h3>
+        <ul>
+          <li data-i18n="footer.svc_sun">Sunday · 11:00 AM – 1:00 PM</li>
+          <li data-i18n="footer.svc_wed">Wednesday · 7:00 – 8:30 PM</li>
+          <li data-i18n="footer.svc_vigil">Night vigil · last Friday, 11 PM – 1 AM</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__base">
+      <span>&copy; <span id="yr">2026</span> <span data-i18n="footer.rights">Tabernacle of Prayer, Ottawa. A registered Canadian charity.</span></span>
+      <span data-i18n="footer.charity">Charity no. 00000 0000 RR0001</span>
+    </div>
+  </div>
+</footer>
+
+<script>document.getElementById("yr").textContent = new Date().getFullYear();</script>
+<script src="assets/js/app.js?v=10" defer></script>
+</body>
+</html>
