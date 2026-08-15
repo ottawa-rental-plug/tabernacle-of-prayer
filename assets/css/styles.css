@@ -1247,3 +1247,8 @@ section[id] { scroll-margin-top: 88px; }
    So: clip through the intro, then release it permanently. */
 .mask{ padding:0; margin-inline:0; margin-bottom:0; overflow:visible; clip-path:inset(-.4em -.8em 0 -.8em); animation: maskRelease 1ms linear 1900ms forwards; }
 @keyframes maskRelease{ to{ clip-path:inset(-.4em -.8em -.7em -.8em); } }
+
+/* Building photo in Our church: full width, uncropped, no wash — the sign has to stay readable. */
+.about__building{ margin: 34px 0 40px; }
+.about__building img{ display:block; width:100%; height:auto; border-radius:18px; box-shadow:0 8px 30px rgba(58,36,22,.12); }
+.about__building figcaption{ margin-top:12px; text-align:center; font-size:.9rem; color:#6A5648; }
