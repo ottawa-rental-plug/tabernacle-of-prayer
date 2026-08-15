@@ -1241,3 +1241,9 @@ section[id] { scroll-margin-top: 88px; }
 .header[data-scrolled="true"] .nav__link:hover{ color:#FDFAF5; background:rgba(255,255,255,.10); }
 .header[data-scrolled="true"] .nav__link[aria-current="true"]{ color:#E8C069; }
 .header[data-scrolled="true"] .burger{ border-color:rgba(232,192,105,.34); }
+
+/* The rise mask must clip while the line animates in, but a clip still active
+   afterwards cuts the ink of the italic — padding alone never fixes that on iOS.
+   So: clip through the intro, then release it permanently. */
+.mask{ padding:0; margin-inline:0; margin-bottom:0; overflow:visible; clip-path:inset(-.4em -.8em 0 -.8em); animation: maskRelease 1ms linear 1900ms forwards; }
+@keyframes maskRelease{ to{ clip-path:inset(-.4em -.8em -.7em -.8em); } }
