@@ -1252,3 +1252,9 @@ section[id] { scroll-margin-top: 88px; }
 .about__building{ margin: 34px 0 40px; }
 .about__building img{ display:block; width:100%; height:auto; border-radius:18px; box-shadow:0 8px 30px rgba(58,36,22,.12); }
 .about__building figcaption{ margin-top:12px; text-align:center; font-size:.9rem; color:#6A5648; }
+
+/* iOS clips a transformed inline-block at its own layer bounds, and an italic's
+   final letter overhangs that box. Two defences: grow the box so the ink fits,
+   and drop the transform so no layer is promoted in the first place. */
+.hero__title em{ padding:.06em .20em .14em .06em; margin:-.06em -.20em -.14em -.06em; animation-name: emFade; }
+@keyframes emFade{ from{ opacity:0; } to{ opacity:1; } }
