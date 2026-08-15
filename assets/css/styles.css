@@ -1230,5 +1230,6 @@ section[id] { scroll-margin-top: 88px; }
 
 
 /* Hero photo washed back so the dark type and the seal read over it */
-.hero__scrim{ background: radial-gradient(56% 42% at 50% 49%, rgba(253,250,245,.30), transparent 76%), linear-gradient(rgba(252,244,229,.78), rgba(252,244,229,.78)); }
-.hero__seal{ opacity:.12; }
+.hero__scrim{ background: radial-gradient(56% 42% at 50% 49%, rgba(253,250,245,.24), transparent 76%), linear-gradient(rgba(252,244,229,.60), rgba(252,244,229,.60)); }
+.hero__bg{ background-position: center 68%; }
+.hero__seal{ opacity:.16; }
