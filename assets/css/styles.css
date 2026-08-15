@@ -1233,3 +1233,11 @@ section[id] { scroll-margin-top: 88px; }
 .hero__bg{ background-position: center 68%; filter: blur(10px) saturate(1.06); transform: scale(1.08); }
 .hero__seal{ display: none; }  /* replaced by the small sharp crest in the hero */
 .hero__content::before{ content:""; display:block; width:54px; height:54px; margin:0 auto 18px; border-radius:100px; background:url("../../brand/logo.jpg") center/cover no-repeat; box-shadow:0 2px 12px rgba(58,36,22,.20); }
+
+/* --- Review pass: small-screen headline, mask clearance, scrolled header --- */
+:root{ --t-hero: clamp(2.1rem, 6vw + 1rem, 5.5rem); }  /* floor was 2.75rem, which forced a break on narrow phones */
+.mask{ padding: 0 .28em .28em; margin-inline: -.28em; margin-bottom: -.16em; }  /* was clipping italic ink */
+.header[data-scrolled="true"]{ background: var(--anchor); border-bottom-color: rgba(232,192,105,.22); --cream:#FDFAF5; --gold-light:#E8C069; --muted-on-ink:#D9C8B6; --line-on-ink:rgba(232,192,105,.22); }
+.header[data-scrolled="true"] .nav__link:hover{ color:#FDFAF5; background:rgba(255,255,255,.10); }
+.header[data-scrolled="true"] .nav__link[aria-current="true"]{ color:#E8C069; }
+.header[data-scrolled="true"] .burger{ border-color:rgba(232,192,105,.34); }
